@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffaaaa"
+    tools:context=".MainActivity">
+    <View
+        android:id="@+id/view_relative"
+        android:layout_centerInParent="true"
+        android:background="@color/white"
+        android:layout_width="200dp"
+        android:layout_height="200dp"/>
+    <TextView
+
+        android:layout_above="@id/view_relative"
+        android:layout_toLeftOf="@id/view_relative"
+        android:text="이것은 뷰입니다."
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_width="200dp"
+        android:layout_height="56dp"/>
+</RelativeLayout>

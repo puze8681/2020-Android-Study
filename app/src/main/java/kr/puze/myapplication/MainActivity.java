@@ -15,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_linear);
+        setContentView(R.layout.activity_relative);
+        setContentView(R.layout.activity_constraint);
 
         textTitle = findViewById(R.id.text_title_main);
 
@@ -34,12 +37,9 @@ public class MainActivity extends AppCompatActivity {
         textTitle.setOnClickListener(textTitleListener);
 
         //Type 2
-        textTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "토스트 입니당", Toast.LENGTH_LONG).show();
-                Log.d("LOGTAG", view.toString());
-            }
+        textTitle.setOnClickListener(view -> {
+            //Toast.makeText(context, 띄울 내용, 토스트 지속 시간).show();
+            Toast.makeText(getApplicationContext(), "토스트 입니당", Toast.LENGTH_LONG).show();
         });
     }
 }
