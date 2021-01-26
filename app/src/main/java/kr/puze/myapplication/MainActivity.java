@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,8 +13,8 @@ public class MainActivity extends AppCompatActivity {
         MINUS, PLUS, MULTIPLE, DIVIDE
     }
 
-    int num1;
-    int num2;
+    double num1;
+    double num2;
     Operation operation;
     boolean isOperated = false;
 
@@ -81,13 +82,11 @@ public class MainActivity extends AppCompatActivity {
         button_8_main.setOnClickListener(view -> { numButton(8); });
         button_9_main.setOnClickListener(view -> { numButton(9); });
 
-        button_c_main.setOnClickListener(view -> {
-            //숫자가 0으로 초기화 된다
-        });
-        button_pm_main.setOnClickListener(view -> {});
-        button_hundred_main.setOnClickListener(view -> {});
-        button_dot_main.setOnClickListener(view -> {});
-        button_backspace_main.setOnClickListener(view -> { });
+        button_c_main.setOnClickListener(view -> { clear(); });
+        button_pm_main.setOnClickListener(view -> { plusMinus(); });
+        button_hundred_main.setOnClickListener(view -> { percentage(); });
+        button_dot_main.setOnClickListener(view -> { dot(); });
+        button_backspace_main.setOnClickListener(view -> { backSpace(); });
         button_divide_main.setOnClickListener(view -> { operateButton(Operation.DIVIDE); });
         button_multiple_main.setOnClickListener(view -> { operateButton(Operation.MULTIPLE); });
         button_minus_main.setOnClickListener(view -> {  operateButton(Operation.MINUS); });
@@ -95,23 +94,57 @@ public class MainActivity extends AppCompatActivity {
         button_result_main.setOnClickListener(view -> { result(); });
     }
 
+    private void plusMinus(){
+        text_result_main.setText(String.valueOf((Double.parseDouble(text_result_main.getText().toString()) * -1)));
+    }
+
+    private void percentage(){
+        text_result_main.setText(String.valueOf((Double.parseDouble(text_result_main.getText().toString()) * 0.01)));
+    }
+
+    private void dot(){
+        String result = text_result_main.getText().toString();
+        if(!result.contains(".")){
+            result += ".";
+            text_result_main.setText(result);
+        }
+    }
+
+    private void backSpace(){
+        String nowNum = text_result_main.getText().toString();
+        StringBuffer sb= new StringBuffer(nowNum);
+        sb.deleteCharAt(sb.length()-1);
+        if(sb.toString().equals("")) sb.append("0");
+        text_result_main.setText(sb.toString());
+    }
+
+    private void clear(){
+        text_result_main.setText("0");
+        isOperated = false;
+        num1 = 0;
+        num2 = 0;
+    }
+
     private void numButton(int num){
         if(isOperated){
             text_result_main.setText(String.valueOf(num));
         }else{
             String result = text_result_main.getText().toString();
-            result += String.valueOf(num);
+            if(result.equals("0")) result = String.valueOf(num);
+            else result += String.valueOf(num);
             text_result_main.setText(result);
         }
         isOperated = false;
     }
 
     private void operateButton(Operation operate){
+        num1 = Double.parseDouble(text_result_main.getText().toString());
         operation = operate;
         isOperated = true;
     }
 
     private void result(){
+        num2 = Double.parseDouble(text_result_main.getText().toString());
         switch (operation){
             case PLUS:
                 num1 += num2;
