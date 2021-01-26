@@ -1,11 +1,10 @@
 package kr.puze.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +18,10 @@ public class MainActivity extends AppCompatActivity {
     boolean isOperated = false;
 
     //코드에서 사용할 뷰 선언
+
+    TextView button_mc;
+    TextView button_mr;
+    TextView button_mp;
 
     TextView text_result_main;
     TextView button_c_main;
@@ -48,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //코드에서 사용할 뷰와 xml 의 레이아웃 아이디를 연결
+        button_mc = (TextView)findViewById(R.id.button_mc_main);
+        button_mr = (TextView)findViewById(R.id.button_mr_main);
+        button_mp = (TextView)findViewById(R.id.button_mp_main);
+
         text_result_main = (TextView)findViewById(R.id.text_result_main);
         button_c_main = (TextView)findViewById(R.id.button_c_main);
         button_pm_main = (TextView)findViewById(R.id.button_pm_main);
@@ -69,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
         button_8_main = (TextView)findViewById(R.id.button_8_main);
         button_9_main = (TextView)findViewById(R.id.button_9_main);
         button_backspace_main = (ImageView)findViewById(R.id.button_backspace_main);
+
+        button_mc.setOnClickListener(view -> { goToTamago(); });
+        button_mr.setOnClickListener(view -> { goToTamago(); });
+        button_mp.setOnClickListener(view -> { goToTamago(); });
 
         //코드에서 사용할 뷰에 setOnClickListener 을 통해 리스너 등록
         button_0_main.setOnClickListener(view -> { numButton(0); });
@@ -92,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
         button_minus_main.setOnClickListener(view -> {  operateButton(Operation.MINUS); });
         button_add_main.setOnClickListener(view -> { operateButton(Operation.PLUS); });
         button_result_main.setOnClickListener(view -> { result(); });
+    }
+
+    //Intent, getApplicationContext -> 특히 Context 가 뭔지 알아오기
+    private void goToTamago(){
+        Intent intent = new Intent(getApplicationContext(), TamagoActivity.class);
+        startActivity(intent);
     }
 
     private void plusMinus(){
