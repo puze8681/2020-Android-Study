@@ -12,6 +12,10 @@ public class MainActivity extends AppCompatActivity {
         MINUS, PLUS, MULTIPLE, DIVIDE
     }
 
+    enum Page{
+        TAMAGO, MEMO
+    }
+
     double num1;
     double num2;
     Operation operation;
@@ -77,9 +81,9 @@ public class MainActivity extends AppCompatActivity {
         button_9_main = (TextView)findViewById(R.id.button_9_main);
         button_backspace_main = (ImageView)findViewById(R.id.button_backspace_main);
 
-        button_mc.setOnClickListener(view -> { goToTamago(); });
-        button_mr.setOnClickListener(view -> { goToTamago(); });
-        button_mp.setOnClickListener(view -> { goToTamago(); });
+        button_mc.setOnClickListener(view -> { goToPage(Page.TAMAGO); });
+        button_mr.setOnClickListener(view -> { goToPage(Page.MEMO); });
+        button_mp.setOnClickListener(view -> { goToPage(Page.MEMO); });
 
         //코드에서 사용할 뷰에 setOnClickListener 을 통해 리스너 등록
         button_0_main.setOnClickListener(view -> { numButton(0); });
@@ -105,10 +109,19 @@ public class MainActivity extends AppCompatActivity {
         button_result_main.setOnClickListener(view -> { result(); });
     }
 
-    //Intent, getApplicationContext -> 특히 Context 가 뭔지 알아오기
-    private void goToTamago(){
-        Intent intent = new Intent(getApplicationContext(), TamagoActivity.class);
-        startActivity(intent);
+    private void goToPage(Page page){
+        Intent intent; // Intent 선언
+        switch (page){ // switch case 를 이용해 어떤 Intent 로 정의해줄지 정함
+            case TAMAGO: // goToPage 함수의 인자로 Page.TAMAGO 가 들어왔을 때
+                intent = new Intent(getApplicationContext(), TamagoActivity.class); // TAMAGO 화면으로 가는 Intent 로 정의
+                break;
+            case MEMO: // goToPage 함수의 인자로 Page.MEMO 가 들어왔을 때
+                intent = new Intent(getApplicationContext(), MemoActivity.class); // MEMO 화면으로 가는 Intent 로 정의
+                break;
+            default: // 그 외의 상황
+                throw new IllegalStateException("Unexpected value: " + page); // 오류를 던저줌
+        }
+        startActivity(intent); // switch case 에서 정의해준 Intent 로 startActivity 하여 화면 전환
     }
 
     private void plusMinus(){
