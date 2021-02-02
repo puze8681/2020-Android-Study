@@ -1,10 +1,11 @@
 package kr.puze.myapplication;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     enum Page{
-        TAMAGO, MEMO
+        TAMAGO, MEMO, RECYCLER
     }
 
     double num1;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         button_mc.setOnClickListener(view -> { goToPage(Page.TAMAGO); });
         button_mr.setOnClickListener(view -> { goToPage(Page.MEMO); });
-        button_mp.setOnClickListener(view -> { goToPage(Page.MEMO); });
+        button_mp.setOnClickListener(view -> { goToPage(Page.RECYCLER); });
 
         //코드에서 사용할 뷰에 setOnClickListener 을 통해 리스너 등록
         button_0_main.setOnClickListener(view -> { numButton(0); });
@@ -117,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case MEMO: // goToPage 함수의 인자로 Page.MEMO 가 들어왔을 때
                 intent = new Intent(getApplicationContext(), MemoActivity.class); // MEMO 화면으로 가는 Intent 로 정의
+                break;
+            case RECYCLER:
+                intent = new Intent(getApplicationContext(), RecyclerActivity.class); // RECYCLER 화면으로 가는 Intent 로 정의
                 break;
             default: // 그 외의 상황
                 throw new IllegalStateException("Unexpected value: " + page); // 오류를 던저줌
