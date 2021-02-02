@@ -1,11 +1,16 @@
 package kr.puze.myapplication;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 public class MemoActivity extends AppCompatActivity {
 
@@ -13,35 +18,28 @@ public class MemoActivity extends AppCompatActivity {
     EditText editContent;
     TextView buttonMemo;
 
-    //EditText 내부의 값을 사용하는 방법
-    //trim() 문법
-    //예외처리
-    //package
-    //sharedPreference
-    //NoActionBar
+    SharedPreferences sf; // 앱 내 데이터를 저장할 객체
+    SharedPreferences.Editor editor; // 앱 내 데이터를 수정할 객체
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memo);
 
+        sf = getSharedPreferences("sFile", MODE_PRIVATE); // 앱 내 데이터를 저장할 객체를 초기화 -> "sFile" 이라는 저장소, PRIVATE 이라는 모드
+        editor = sf.edit(); // 앱 내 데이터를 수정할 객첸데 어떤 데이터를 수정할거냐 -> sf 에 대한 데이터를 수정할 객체다 라고 초기화
+
         editTitle = findViewById(R.id.edit_title);
         editContent = findViewById(R.id.edit_content);
         buttonMemo = findViewById(R.id.button_memo);
 
+        String title = sf.getString("memoTitle", ""); // SharedPreference 객체에서 직접적으로 key 값에 해당하는 값을 불러옴
+        String content = sf.getString("memoContent", ""); // SharedPreference 객체에서 직접적으로 key 값에 해당하는 값을 불러옴
+
+        editTitle.setText(title);
+        editContent.setText(content);
+
         buttonMemo.setOnClickListener(view -> {
-//            // case 1 -> 제목과 본문의 입력을 그대로 memo() 함수에 넣어 실행
-//            memo(editTitle.getText().toString(), editContent.getText().toString());
-
-//            // case 2 -> 제목과 본문의 입력을 새로 만든 변수에 대입 후 memo() 함수에 넣어 실행
-//            String title = editTitle.getText().toString();
-//            String content = editContent.getText().toString();
-//            memo(title, content);
-
-            // case 3 ->
-            // 제목과 본문의 입력을 trim() 을 통해 불필요한 입력을 제거 후 새로 만든 변수에 대입
-            // 만약 두 변수의 값이 모두 빈 값이 아니라면 memo() 함수에 넣어 실행
-            // 만약 두 변수의 값이 모두 빈 값이라면 모든 값을 입력해달라는 토스트 실행
             String titleTrim = editTitle.getText().toString().trim();
             String contentTrim = editContent.getText().toString().trim();
 
@@ -51,8 +49,9 @@ public class MemoActivity extends AppCompatActivity {
     }
 
     private void memo(String title, String content){
-        // 입력받은 제목과 내용을 가공하여 toastText 라는 변수에 대입 후 토스트 실행
         String toastText = "제목 : " + title + "\n 본문 : " + content;
+        editor.putString("memoTitle", title).commit(); // SharedPreference Editor 객체를 통해 key 값에 해당하는 값을 넣어줌
+        editor.putString("memoContent", content).commit(); // SharedPreference Editor 객체를 통해 key 값에 해당하는 값을 넣어줌
         Toast.makeText(getApplicationContext(),
                 toastText,
                 Toast.LENGTH_LONG).show();
